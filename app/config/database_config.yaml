@@ -1,0 +1,7 @@
+default:
+  mongo:
+    uri: mongodb://localhost:27017/
+    name: legal_assistant
+    chat_history_table: message_history 
+    user_table: users
+  
