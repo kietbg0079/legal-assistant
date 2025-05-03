@@ -4,4 +4,4 @@ default:
     name: legal_assistant
     chat_history_table: message_history 
     user_table: users
-  
+    conversation_table: conversation
