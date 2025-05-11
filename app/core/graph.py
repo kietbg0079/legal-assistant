@@ -2,11 +2,11 @@ from app.model import LLMModel
 from .state import State
 from langgraph.graph import StateGraph, START, END
 
+def chatbot(state: State):
+    return {"messages": [llm.invoke(state["messages"])]}
+
 def define_graph(llm):
     graph_builder = StateGraph(State)
-
-    def chatbot(state: State):
-        return {"messages": [llm.invoke(state["messages"])]}
     
     graph_builder.add_node("chatbot", chatbot)
     graph_builder.add_edge(START, "chatbot")

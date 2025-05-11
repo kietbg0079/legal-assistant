@@ -1,5 +1,6 @@
 import os
 import asyncio
+import functools
 from openai import OpenAI
 
 from .base_model import BaseLLMModel
@@ -16,13 +17,21 @@ class GPTModel(BaseLLMModel):
         
         response = self.client.responses.create(
             input=messages,
-            n=1,
             **{**self.parameters, **config_dict}
         )
 
-        return response
+        return response.choices[0].message.content
 
     async def run_async(self,
                         messages,
                         config_dict={}):
-        pass
+        
+        final_params = {**self.parameters, 
+                        **config_dict}
+        sync_api_call = functools.partial(
+            self.client.responses.create, 
+            input=messages,                          
+            **final_params  
+        )
+        response = await asyncio.to_thread(sync_api_call)
+        return response

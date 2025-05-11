@@ -57,7 +57,7 @@ class MongoDB:
         )
         logger.info(f"Add info user {user_id} success")
         return cursor
-    
+
     def query_user_by_id(self, user_id):
         user_info = self.user_table.find_one({'id' : user_id})
         if user_info:
@@ -118,13 +118,19 @@ class MongoDB:
             }
         )
 
+    def delete_messages_from_conversation_id(self,
+                                             conversation_id):
+        result = self.chat_history_table.delete_many({"conversation_id": conversation_id})
+        logger.info(f"Deleted {result.deleted_count} documents")
+        return result.deleted_count
+
     def get_messages_from_conversation_id(self, 
                                           conversation_id, 
                                           sort_latest=True, 
                                           format_type="dict"):
         cursor = self.chat_history_table.find({'conversation_id' : conversation_id})
         if sort_latest:
-            cursor.sort("created_at", DESCENDING)
+            cursor.sort("created_at", ASCENDING)
         
         messages = []
         for message in cursor:
