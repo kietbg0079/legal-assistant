@@ -36,10 +36,10 @@ class Logger:
         """
         self.module_name = module_name
         self.log_level = log_level
-        self.log_dir = log_dir
+        self.log_dir = f"{log_dir}/{module_name}"
         self.log_format = log_format
         self.date_format = date_format
-
+        
         # Use class-level dictionary to avoid reconfiguring the same logger
         if module_name in Logger._loggers:
             self.logger = Logger._loggers[module_name]
@@ -68,7 +68,7 @@ class Logger:
             # For now, we'll continue and FileHandler will likely raise error.
 
         # --- Create File Handler ---
-        log_file_name = f"{self.module_name}_{datetime.now().strftime("%Y-%m-%d")}.log"
+        log_file_name = f"{datetime.now().strftime("%Y-%m-%d")}.log"
         log_file_path = os.path.join(self.log_dir, log_file_name)
         try:
             file_handler = logging.FileHandler(log_file_path, encoding='utf-8')

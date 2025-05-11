@@ -1,7 +1,6 @@
 from datetime import datetime, date
 from typing import Literal
 import pydantic
-from pydantic import field_serializer
 from dataclasses import field
 
 @pydantic.dataclasses.dataclass(frozen=True)

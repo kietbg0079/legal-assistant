@@ -3,7 +3,7 @@ from dotenv import load_dotenv
 
 from .config import load_yaml_config
 
-load_dotenv()
+load_dotenv(override=True)
 
 app_config = {
     "opensearch_config": os.environ.get("OPENSEARCH_CONFIG"),
